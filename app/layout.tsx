@@ -16,15 +16,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  session,
+  params,
 }: Readonly<{
   children: React.ReactNode;
-  session: Session;
+  params: {
+    session: Session;
+  };
 }>) {
   return (
     <html lang="en">
       <body className={exo2.className}>
-        <Providers session={session}>
+        <Providers session={params.session}>
           <Container maxW="4xl">
             <Navigation />
             {children}
