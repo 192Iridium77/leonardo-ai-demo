@@ -12,9 +12,11 @@ export default function ShowCard({ show }) {
     setIsModalOpen(!isModalOpen);
   };
 
+  const parseDescription = show.description.replaceAll("<br>", "");
+
   return (
-    <div>
-      <Box onClick={toggleModal}>
+    <>
+      <Box onClick={toggleModal} cursor="pointer">
         <Card direction={{ base: "column", sm: "row" }} overflow="hidden">
           <div
             style={{
@@ -29,6 +31,11 @@ export default function ShowCard({ show }) {
                 alt={show.title.romaji}
                 style={{ objectFit: "cover" }}
                 fill
+                sizes="((min-width: 50em) and (max-width: 60em)) 50em,
+              ((min-width: 30em) and (max-width: 50em)) 30em,
+              (max-width: 30em) 20em"
+                placeholder="blur"
+                blurDataURL={show.coverImage.medium}
               ></Image>
             ) : null}
           </div>
@@ -39,7 +46,7 @@ export default function ShowCard({ show }) {
               </Heading>
 
               <Text mt="2" noOfLines={5}>
-                {show.description}
+                {parseDescription}
               </Text>
             </CardBody>
           </Stack>
@@ -50,6 +57,6 @@ export default function ShowCard({ show }) {
         isOpen={isModalOpen}
         onClose={toggleModal}
       ></ShowModal>
-    </div>
+    </>
   );
 }

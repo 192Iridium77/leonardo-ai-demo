@@ -1,11 +1,14 @@
-import { Heading } from "@chakra-ui/react";
-import Link from "next/link";
+import { Heading, Text } from "@chakra-ui/react";
 
 export default async function Home() {
   return (
     <main>
-      <Heading>Home</Heading>
-      <Link href="/shows">View Shows</Link>
+      <Heading my={4}>Home</Heading>
+      <Text>
+        This is a demo project, built using Next.js, GraphQL apollo, PosgreSQL
+        and Chakra UI.
+      </Text>
+      <Text>It has been deployed on a free tier Vercel.</Text>
     </main>
   );
 }

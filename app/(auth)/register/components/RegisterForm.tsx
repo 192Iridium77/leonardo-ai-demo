@@ -31,7 +31,6 @@ export default function RegisterForm() {
         password: formData.get("password"),
       }),
     });
-    console.log("🚀 ~ RegisterForm ~ response:", response);
 
     if (response.ok) {
       router.push("/shows");

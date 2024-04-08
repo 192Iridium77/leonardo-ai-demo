@@ -36,6 +36,7 @@ export async function fetchShows({
               coverImage {
                 color
                 extraLarge
+                medium
               }
               bannerImage
               description
@@ -47,7 +48,7 @@ export async function fetchShows({
       variables: {
         id,
         page: currentPage,
-        perPage: 20,
+        perPage: 8,
         isAdult: false,
       },
     });
@@ -57,8 +58,6 @@ export async function fetchShows({
       shows: response.data.Page.media,
     };
   } catch (err) {
-    // 404?
-    // 500?
-    throw new Error(err);
+    throw err;
   }
 }

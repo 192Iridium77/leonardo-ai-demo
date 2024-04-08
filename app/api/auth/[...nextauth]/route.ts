@@ -10,30 +10,41 @@ const handler = NextAuth({
   pages: {
     signIn: "/login",
   },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.user = user;
+      return token;
+    },
+    async session({ session, token }) {
+      if (token.user) {
+        session.user = token.user;
+      }
+      return session;
+    },
+  },
   providers: [
     Credentials({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text" },
-        password: { label: "Password", type: "password" },
+        id: {},
+        username: {},
+        password: {},
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const response = await sql<any>`
             SELECT * FROM users WHERE username = ${credentials?.username}
         `;
 
         const user = response.rows[0];
+        if (!user) return null;
 
-        const passwordIsCorrect = user
-          ? await compare(credentials?.password || "", user.password)
-          : false;
+        const passwordIsCorrect = await compare(
+          credentials?.password || "",
+          user.password
+        );
 
         if (passwordIsCorrect) {
-          return {
-            id: user.id,
-            username: user.username,
-            job_title: user.job_title,
-          };
+          return user;
         } else {
           return null;
         }

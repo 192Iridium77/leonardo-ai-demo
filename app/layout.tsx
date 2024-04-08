@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import Navigation from "./components/Navigation";
 import { Container } from "@chakra-ui/react";
+import { Session } from "next-auth";
 
 const exo2 = Exo_2({ subsets: ["latin"] });
 
@@ -15,13 +16,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  session,
 }: Readonly<{
   children: React.ReactNode;
+  session: Session;
 }>) {
   return (
     <html lang="en">
       <body className={exo2.className}>
-        <Providers>
+        <Providers session={session}>
           <Container maxW="4xl">
             <Navigation />
             {children}

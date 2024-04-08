@@ -1,5 +1,6 @@
 "use client";
 
+import { Flex, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 
@@ -15,25 +16,23 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   };
 
   return (
-    <>
-      <div className="inline-flex">
-        <PaginationButton
-          direction="left"
-          href={createPageURL(currentPage - 1)}
-          isDisabled={currentPage <= 1}
-        />
+    <Flex my={8} justifyContent="space-between">
+      <PaginationButton
+        direction="left"
+        href={createPageURL(currentPage - 1)}
+        isDisabled={currentPage <= 1}
+      />
 
-        <div>
-          {currentPage} / {totalPages}
-        </div>
+      <Text>
+        {currentPage} / {totalPages}
+      </Text>
 
-        <PaginationButton
-          direction="right"
-          href={createPageURL(currentPage + 1)}
-          isDisabled={currentPage >= totalPages}
-        />
-      </div>
-    </>
+      <PaginationButton
+        direction="right"
+        href={createPageURL(currentPage + 1)}
+        isDisabled={currentPage >= totalPages}
+      />
+    </Flex>
   );
 }
 

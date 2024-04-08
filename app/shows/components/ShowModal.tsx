@@ -12,6 +12,8 @@ import Image from "next/image";
 import "./showModal.css";
 
 export default function ShowModal({ isOpen, show, onClose }) {
+  const parseDescription = show.description.replaceAll("<br>", "\n");
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl" id="show-modal">
       <ModalOverlay />
@@ -29,7 +31,7 @@ export default function ShowModal({ isOpen, show, onClose }) {
           ) : null}
           <ModalHeader>{show?.title.romaji}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{show?.description}</ModalBody>
+          <ModalBody>{parseDescription}</ModalBody>
         </ModalContent>
       ) : (
         <Spinner></Spinner>
