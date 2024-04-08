@@ -1,5 +1,6 @@
 "use client";
 
+import { User } from "@/app/lib/definitions";
 import {
   Button,
   Card,
@@ -9,13 +10,16 @@ import {
   FormLabel,
   Heading,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { signOut } from "next-auth/react";
 
 import { useFormState, useFormStatus } from "react-dom";
 
-export default function RegisterForm({ user }) {
-  const handleUpdate = async (previousState: any, formData: FormData) => {
+export default function RegisterForm({ user }: { user: User }) {
+  const toast = useToast();
+
+  const handleUpdate = async (previousState: User, formData: FormData) => {
     const submittedUsername = formData.get("username");
 
     const response = await fetch("/api/user/update", {
@@ -28,11 +32,19 @@ export default function RegisterForm({ user }) {
       }),
     });
 
+    toast({
+      title: "User updated.",
+      description: "We've updated your account details for you.",
+      status: "success",
+      duration: 8000,
+      isClosable: true,
+    });
+
     if (submittedUsername !== previousState.username) {
       signOut();
     }
 
-    return response;
+    return user;
   };
 
   const [state, action] = useFormState(handleUpdate, user);

@@ -4,8 +4,9 @@ import { useState } from "react";
 import { Box, Card, CardBody, Text, Heading, Stack } from "@chakra-ui/react";
 import Image from "next/image";
 import ShowModal from "./ShowModal";
+import { Show } from "@/app/lib/definitions";
 
-export default function ShowCard({ show }) {
+export default function ShowCard({ show }: { show: Show }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {

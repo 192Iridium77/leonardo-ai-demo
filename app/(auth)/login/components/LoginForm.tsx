@@ -13,7 +13,7 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { signIn } from "next-auth/react";
+import { SignInResponse, signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useFormState, useFormStatus } from "react-dom";
@@ -21,7 +21,7 @@ import { useFormState, useFormStatus } from "react-dom";
 export default function LoginForm() {
   const router = useRouter();
   const handleRegistration = async (
-    previousState: string | undefined,
+    previousState: SignInResponse | undefined,
     formData: FormData
   ) => {
     const response = await signIn("credentials", {
@@ -38,7 +38,7 @@ export default function LoginForm() {
     return response;
   };
 
-  const [state, action] = useFormState(handleRegistration, {});
+  const [state, action] = useFormState(handleRegistration, undefined);
 
   const { pending } = useFormStatus();
 

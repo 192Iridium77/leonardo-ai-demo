@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
 import createApolloClient from "@/app/lib/apollo-client";
+import { Show, PageInfo } from "./definitions";
 
 export async function fetchShows({
   currentPage,
@@ -7,7 +8,7 @@ export async function fetchShows({
 }: {
   currentPage?: number;
   id?: string;
-}) {
+}): Promise<{ shows: Show[]; pageInfo: PageInfo }> {
   const client = createApolloClient();
 
   try {

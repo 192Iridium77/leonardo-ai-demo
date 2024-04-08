@@ -1,5 +1,5 @@
 import ShowCard from "./components/ShowCard";
-import { Box, Heading, SimpleGrid } from "@chakra-ui/react";
+import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
 import { fetchShows } from "../lib/fetchShows";
 import Pagination from "./components/Pagination";
 import { getServerSession } from "next-auth";

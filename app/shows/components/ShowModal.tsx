@@ -10,8 +10,17 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import "./showModal.css";
+import { Show } from "@/app/lib/definitions";
 
-export default function ShowModal({ isOpen, show, onClose }) {
+export default function ShowModal({
+  isOpen,
+  show,
+  onClose,
+}: {
+  isOpen: boolean;
+  show: Show;
+  onClose: () => void;
+}) {
   const parseDescription = show.description.replaceAll("<br>", "\n");
 
   return (

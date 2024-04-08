@@ -8,7 +8,6 @@ import {
   Container,
   FormControl,
   FormLabel,
-  FormErrorMessage,
   Heading,
   Input,
   Text,
@@ -20,7 +19,7 @@ export default function RegisterForm() {
   const router = useRouter();
 
   const handleRegistration = async (
-    previousState: string | undefined,
+    previousState: Response | undefined,
     formData: FormData
   ) => {
     const response = await fetch("/api/auth/register", {
@@ -40,7 +39,7 @@ export default function RegisterForm() {
     return response;
   };
 
-  const [errorMessage, action] = useFormState(handleRegistration, undefined);
+  const [state, action] = useFormState(handleRegistration, undefined);
 
   const { pending } = useFormStatus();
 
@@ -77,8 +76,8 @@ export default function RegisterForm() {
               Sign Up
             </Button>
             <Box mt={4} aria-live="polite" aria-atomic="true">
-              {errorMessage ? (
-                <FormErrorMessage>{errorMessage}</FormErrorMessage>
+              {!state?.ok ? (
+                <Text>Something went wrong. Please try again.</Text>
               ) : null}
             </Box>
           </form>
