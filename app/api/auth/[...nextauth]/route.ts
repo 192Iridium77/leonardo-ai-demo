@@ -1,7 +1,12 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { compare } from "bcrypt";
+import { sql } from "@vercel/postgres";
 
 const handler = NextAuth({
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     Credentials({
       name: "Credentials",
@@ -10,17 +15,25 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        // TODO query user
-        const user = { id: "1", name: "J Smith", email: "jsmith@example.com" };
+        const response = await sql<any>`
+            SELECT * FROM users WHERE username = ${credentials?.username}
+        `;
 
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user;
+        const user = response.rows[0];
+
+        const passwordIsCorrect = await compare(
+          credentials?.password || "",
+          user.password
+        );
+
+        if (passwordIsCorrect) {
+          return {
+            id: user.id,
+            username: user.username,
+            job_title: user.job_title,
+          };
         } else {
-          // If you return null then an error will be displayed advising the user to check their details.
           return null;
-
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       },
     }),
