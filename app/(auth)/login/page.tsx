@@ -1,6 +1,12 @@
 import LoginForm from "./components/LoginForm";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
-function LoginPage() {
+async function LoginPage() {
+  const session = await getServerSession();
+  console.log("🚀 ~ LoginPage ~ session:", session);
+  if (session) redirect("/");
+
   return (
     <main>
       <LoginForm />
