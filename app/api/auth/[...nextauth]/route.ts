@@ -7,6 +7,9 @@ const handler = NextAuth({
   session: {
     strategy: "jwt",
   },
+  pages: {
+    signIn: "/login",
+  },
   providers: [
     Credentials({
       name: "Credentials",
@@ -21,10 +24,9 @@ const handler = NextAuth({
 
         const user = response.rows[0];
 
-        const passwordIsCorrect = await compare(
-          credentials?.password || "",
-          user.password
-        );
+        const passwordIsCorrect = user
+          ? await compare(credentials?.password || "", user.password)
+          : false;
 
         if (passwordIsCorrect) {
           return {

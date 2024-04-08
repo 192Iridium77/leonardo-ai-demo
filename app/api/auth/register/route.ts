@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { hash } from "bcrypt";
 import { sql } from "@vercel/postgres";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
@@ -24,20 +25,21 @@ export async function POST(request: Request) {
                 VALUES (${job_title}, ${username}, ${hashedPassword})
               `;
 
-      return {
+      return NextResponse.json({
         status: 200,
-        body: { message: "User registered successfully" },
-      };
+        message: "User registered successfully",
+      });
     } else {
-      return {
+      return NextResponse.json({
         status: 400,
-        body: { error: "Validation error", details: parsedFormData.error },
-      };
+        error: "Validation error",
+        details: parsedFormData.error,
+      });
     }
   } catch (error) {
-    return {
+    return NextResponse.json({
       status: 500,
-      body: { error: "Internal server error" },
-    };
+      error: "Internal server error",
+    });
   }
 }

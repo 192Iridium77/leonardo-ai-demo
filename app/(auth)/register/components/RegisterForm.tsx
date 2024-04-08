@@ -13,9 +13,12 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 import { useFormState, useFormStatus } from "react-dom";
 
 export default function RegisterForm() {
+  const router = useRouter();
+
   const handleRegistration = async (
     previousState: string | undefined,
     formData: FormData
@@ -29,6 +32,13 @@ export default function RegisterForm() {
       }),
     });
     console.log("🚀 ~ RegisterForm ~ response:", response);
+
+    if (response.ok) {
+      router.push("/shows");
+      router.refresh();
+    }
+
+    return response;
   };
 
   const [errorMessage, action] = useFormState(handleRegistration, undefined);

@@ -14,9 +14,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useFormState, useFormStatus } from "react-dom";
 
 export default function LoginForm() {
+  const router = useRouter();
   const handleRegistration = async (
     previousState: string | undefined,
     formData: FormData
@@ -26,10 +29,16 @@ export default function LoginForm() {
       password: formData.get("password"),
       redirect: false,
     });
-    console.log("🚀 ~ LoginForm ~ response:", response);
+
+    if (!response?.error) {
+      router.push("/shows");
+      router.refresh();
+    }
+
+    return response;
   };
 
-  const [errorMessage, action] = useFormState(handleRegistration, undefined);
+  const [state, action] = useFormState(handleRegistration, {});
 
   const { pending } = useFormStatus();
 
@@ -58,13 +67,16 @@ export default function LoginForm() {
                 minLength={6}
               />
             </FormControl>
+            {!!state?.error ? (
+              <Box mt={4} aria-live="polite" aria-atomic="true" color="crimson">
+                Incorrect username or password. Please try again.
+              </Box>
+            ) : null}
             <Button aria-disabled={pending} type="submit" width="100%" mt={4}>
               Log in
             </Button>
-            <Box mt={4} aria-live="polite" aria-atomic="true">
-              {errorMessage ? (
-                <FormErrorMessage>{errorMessage}</FormErrorMessage>
-              ) : null}
+            <Box textAlign="center" mt={4}>
+              <Link href="/register">Create a new account</Link>
             </Box>
           </form>
         </CardBody>

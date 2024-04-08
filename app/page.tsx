@@ -1,9 +1,11 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { Heading } from "@chakra-ui/react";
+import Link from "next/link";
 
 export default async function Home() {
-  const session = await getServerSession();
-  if (!session) redirect("/login");
-
-  return <main>List Here</main>;
+  return (
+    <main>
+      <Heading>Home</Heading>
+      <Link href="/shows">View Shows</Link>
+    </main>
+  );
 }

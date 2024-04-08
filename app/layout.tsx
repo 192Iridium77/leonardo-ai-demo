@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Exo_2 } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import Navigation from "./components/Navigation";
+import { Container } from "@chakra-ui/react";
 
 const exo2 = Exo_2({ subsets: ["latin"] });
 
@@ -19,7 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={exo2.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <Container maxW="4xl">
+            <Navigation />
+            {children}
+          </Container>
+        </Providers>
       </body>
     </html>
   );
