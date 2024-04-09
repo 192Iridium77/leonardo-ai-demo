@@ -4,7 +4,8 @@ import { fetchShows } from "../lib/fetchShows";
 import Pagination from "./components/Pagination";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { Show } from "@/app/lib/definitions";
+import Link from "next/link";
+import { TOTAL_RESULTS } from "@/app/lib/fetchShows";
 
 export default async function Shows({
   searchParams,
@@ -17,27 +18,34 @@ export default async function Shows({
   if (!session) redirect("/login");
 
   const currentPage = Number(searchParams?.page) || 1;
-  const { shows, pageInfo } = await fetchShows({ currentPage });
+  const { shows, error } = await fetchShows({ currentPage });
 
   return (
     <section>
       <Heading my={4}>Shows</Heading>
-      <VStack>
-        <SimpleGrid minChildWidth="400px" spacing={8}>
-          {shows ? (
-            shows.map((show) => (
-              <div key={show.id}>
-                <ShowCard show={show}></ShowCard>
-              </div>
-            ))
-          ) : (
-            <Text color="crimson">Something went wrong. Please try again.</Text>
-          )}
-        </SimpleGrid>
-      </VStack>
-      <Box width="100%">
-        <Pagination totalPages={pageInfo.total}></Pagination>
-      </Box>
+      {!error && shows ? (
+        <>
+          <VStack>
+            <SimpleGrid minChildWidth="400px" spacing={8}>
+              {shows.map((show) => (
+                <div key={show.id}>
+                  <ShowCard show={show}></ShowCard>
+                </div>
+              ))}
+            </SimpleGrid>
+          </VStack>
+          <Box width="100%">
+            <Pagination totalPages={TOTAL_RESULTS}></Pagination>
+          </Box>
+        </>
+      ) : (
+        <Box>
+          <Text mb={4} color="red.600">
+            {error?.message}
+          </Text>
+          <Link href="/shows">Back to Shows</Link>
+        </Box>
+      )}
     </section>
   );
 }

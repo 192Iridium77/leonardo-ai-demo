@@ -21,7 +21,8 @@ export default function ShowModal({
   show: Show;
   onClose: () => void;
 }) {
-  const parseDescription = show.description.replaceAll("<br>", "\n");
+  const parseDescription = (description: string) =>
+    description.replaceAll("<br>", "\n");
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="2xl" id="show-modal">
@@ -40,7 +41,7 @@ export default function ShowModal({
           ) : null}
           <ModalHeader>{show?.title.romaji}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{parseDescription}</ModalBody>
+          <ModalBody>{parseDescription(show?.description || "")}</ModalBody>
         </ModalContent>
       ) : (
         <Spinner></Spinner>

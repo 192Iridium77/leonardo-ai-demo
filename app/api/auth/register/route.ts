@@ -7,7 +7,6 @@ import { User } from "@/app/lib/definitions";
 export async function POST(request: Request) {
   try {
     const formData = await request.json();
-    console.log("🚀 ~ POST ~ formData:", formData);
 
     const parsedFormData = z
       .object({
@@ -17,7 +16,6 @@ export async function POST(request: Request) {
       })
       .safeParse(formData);
 
-    console.log("🚀 ~ POST ~ parsedFormData.success:", parsedFormData.success);
     if (parsedFormData.success) {
       const { job_title, username, password } = parsedFormData.data;
 
@@ -27,8 +25,6 @@ export async function POST(request: Request) {
         INSERT INTO users (job_title, username, password)
         VALUES (${job_title}, ${username}, ${hashedPassword})
         `;
-
-      console.log("🚀 ~ POST ~ sqlResponse:", sqlResponse);
 
       return NextResponse.json({
         status: 200,

@@ -17,17 +17,18 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
 
   return (
     <Flex my={8} justifyContent="space-between">
-      <PaginationButton
+      <PaginationLink
         direction="left"
         href={createPageURL(currentPage - 1)}
         isDisabled={currentPage <= 1}
       />
 
-      <Text>
-        {currentPage} / {totalPages}
-      </Text>
+      <Flex>
+        <Text>{currentPage} /</Text>
+        <Link href={createPageURL(totalPages)}>{totalPages}</Link>
+      </Flex>
 
-      <PaginationButton
+      <PaginationLink
         direction="right"
         href={createPageURL(currentPage + 1)}
         isDisabled={currentPage >= totalPages}
@@ -36,7 +37,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   );
 }
 
-function PaginationButton({
+function PaginationLink({
   href,
   direction,
   isDisabled,

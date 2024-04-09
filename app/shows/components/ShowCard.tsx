@@ -13,7 +13,8 @@ export default function ShowCard({ show }: { show: Show }) {
     setIsModalOpen(!isModalOpen);
   };
 
-  const parseDescription = show.description.replaceAll("<br>", "");
+  const parseDescription = (description: string) =>
+    description.replaceAll("<br>", "");
 
   return (
     <>
@@ -47,7 +48,7 @@ export default function ShowCard({ show }: { show: Show }) {
               </Heading>
 
               <Text mt="2" noOfLines={5}>
-                {parseDescription}
+                {parseDescription(show?.description || "")}
               </Text>
             </CardBody>
           </Stack>
