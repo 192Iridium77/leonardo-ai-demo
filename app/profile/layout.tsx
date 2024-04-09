@@ -15,6 +15,7 @@ export default function RootLayout({
         justifyContent={{ base: "normal", md: "center" }}
         alignItems={{ base: "normal", md: "center" }}
         minHeight="100vh"
+        py={8}
       >
         {children}
       </Flex>

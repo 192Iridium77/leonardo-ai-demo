@@ -26,7 +26,7 @@ export default async function Shows({
       {!error && shows ? (
         <>
           <VStack>
-            <SimpleGrid minChildWidth="400px" spacing={8}>
+            <SimpleGrid minChildWidth="380px" spacing={8}>
               {shows.map((show) => (
                 <div key={show.id}>
                   <ShowCard show={show}></ShowCard>
