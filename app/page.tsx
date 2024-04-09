@@ -8,7 +8,7 @@ export default async function Home() {
 
   return (
     <main>
-      <Heading my={4}>Home</Heading>
+      <Heading py={4}>Home</Heading>
       <Text>
         This is a demo project, built using Next.js, GraphQL apollo, PosgreSQL
         and Chakra UI.

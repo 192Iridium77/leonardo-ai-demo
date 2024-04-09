@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
 export const metadata = {
   title: "Leonardo AI | Authentication Steps",
@@ -10,15 +10,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <section>
+    <Box>
       <Flex
         justifyContent="center"
         alignItems={{ base: "normal", md: "center" }}
-        minHeight="80vh"
-        my={8}
+        py={8}
       >
         {children}
       </Flex>
-    </section>
+    </Box>
   );
 }

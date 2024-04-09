@@ -22,7 +22,7 @@ export default async function Shows({
 
   return (
     <section>
-      <Heading my={4}>Shows</Heading>
+      <Heading py={4}>Shows</Heading>
       {!error && shows ? (
         <>
           <VStack>

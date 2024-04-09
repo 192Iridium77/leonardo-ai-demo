@@ -16,7 +16,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   };
 
   return (
-    <Flex my={8} justifyContent="space-between">
+    <Flex py={12} justifyContent="space-between">
       <PaginationLink
         direction="left"
         href={createPageURL(currentPage - 1)}
