@@ -6,6 +6,7 @@ import {
   Card,
   CardBody,
   Container,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
@@ -14,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useFormState, useFormStatus } from "react-dom";
+import Link from "next/link";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -74,12 +76,15 @@ export default function RegisterForm() {
                 minLength={6}
               />
             </FormControl>
-            <Button aria-disabled={pending} type="submit" width="100%" mt={4}>
-              Sign Up
-            </Button>
             <Box mt={4} aria-live="polite" aria-atomic="true">
               {state?.error ? <Text color="red.600">{state.error}</Text> : null}
             </Box>
+            <Button aria-disabled={pending} type="submit" width="100%" mt={4}>
+              Sign Up
+            </Button>
+            <Flex justifyContent="center" mt={4}>
+              <Link href="/login">Back to Login</Link>
+            </Flex>
           </form>
         </CardBody>
       </Card>
