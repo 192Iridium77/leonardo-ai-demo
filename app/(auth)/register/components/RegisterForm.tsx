@@ -12,13 +12,16 @@ import {
   Heading,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useFormState, useFormStatus } from "react-dom";
 import Link from "next/link";
+import RegisterButton from "./RegisterButton";
 
 export default function RegisterForm() {
   const router = useRouter();
+  const toast = useToast();
 
   const handleRegistration = async (
     previousState: Response | undefined,
@@ -36,6 +39,11 @@ export default function RegisterForm() {
     const body = await response.json();
 
     if (!body.error) {
+      toast({
+        title:
+          "You have successfully created an account. Please log in with your credentials.",
+        status: "success",
+      });
       router.push("/shows");
       router.refresh();
     }
@@ -79,9 +87,7 @@ export default function RegisterForm() {
             <Box mt={4} aria-live="polite" aria-atomic="true">
               {state?.error ? <Text color="red.600">{state.error}</Text> : null}
             </Box>
-            <Button aria-disabled={pending} type="submit" width="100%" mt={4}>
-              Sign Up
-            </Button>
+            <RegisterButton></RegisterButton>
             <Flex justifyContent="center" mt={4}>
               <Link href="/login">Back to Login</Link>
             </Flex>
