@@ -11,7 +11,11 @@ export default function RootLayout({
 }>) {
   return (
     <section>
-      <Flex justifyContent="center" alignItems="center" minHeight="90vh">
+      <Flex
+        justifyContent={{ base: "normal", md: "center" }}
+        alignItems={{ base: "normal", md: "center" }}
+        minHeight="80vh"
+      >
         {children}
       </Flex>
     </section>
