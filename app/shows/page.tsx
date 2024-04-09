@@ -1,9 +1,10 @@
 import ShowCard from "./components/ShowCard";
-import { Box, Heading, SimpleGrid, Text } from "@chakra-ui/react";
+import { Box, Heading, SimpleGrid, Text, VStack } from "@chakra-ui/react";
 import { fetchShows } from "../lib/fetchShows";
 import Pagination from "./components/Pagination";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import { Show } from "@/app/lib/definitions";
 
 export default async function Shows({
   searchParams,
@@ -21,17 +22,19 @@ export default async function Shows({
   return (
     <section>
       <Heading my={4}>Shows</Heading>
-      <SimpleGrid minChildWidth="400px" spacing={8}>
-        {shows ? (
-          shows.map((show) => (
-            <div key={show.id}>
-              <ShowCard show={show}></ShowCard>
-            </div>
-          ))
-        ) : (
-          <Text color="crimson">Something went wrong. Please try again.</Text>
-        )}
-      </SimpleGrid>
+      <VStack>
+        <SimpleGrid minChildWidth="400px" spacing={8}>
+          {shows ? (
+            shows.map((show) => (
+              <div key={show.id}>
+                <ShowCard show={show}></ShowCard>
+              </div>
+            ))
+          ) : (
+            <Text color="crimson">Something went wrong. Please try again.</Text>
+          )}
+        </SimpleGrid>
+      </VStack>
       <Box width="100%">
         <Pagination totalPages={pageInfo.total}></Pagination>
       </Box>
