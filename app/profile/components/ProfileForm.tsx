@@ -2,7 +2,6 @@
 
 import { User } from "@/app/lib/definitions";
 import {
-  Button,
   Card,
   CardBody,
   FormControl,
@@ -13,43 +12,51 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { signOut } from "next-auth/react";
-
-import { useFormState, useFormStatus } from "react-dom";
+import UpdateButton from "./UpdateButton";
+import { useFormState } from "react-dom";
 
 export default function RegisterForm({ user }: { user: User }) {
   const toast = useToast();
 
-  const handleUpdate = async (previousState: User, formData: FormData) => {
-    const submittedUsername = formData.get("username");
+  const handleUpdate = async (
+    previousState: User | undefined,
+    formData: FormData
+  ) => {
+    try {
+      const submittedUsername = formData.get("username");
 
-    const response = await fetch("/api/user/update", {
-      method: "PATCH",
-      body: JSON.stringify({
-        id: user.id,
-        job_title: formData.get("job_title"),
-        username: submittedUsername,
-        previousUsername: previousState.username,
-      }),
-    });
+      await fetch("/api/user/update", {
+        method: "PATCH",
+        body: JSON.stringify({
+          id: user.id,
+          job_title: formData.get("job_title"),
+          username: submittedUsername,
+          previousUsername: previousState?.username,
+        }),
+      });
 
-    toast({
-      title: "User updated.",
-      description: "We've updated your account details for you.",
-      status: "success",
-      duration: 8000,
-      isClosable: true,
-    });
+      toast({
+        title: "User updated.",
+        description: "We've updated your account details for you.",
+        status: "success",
+        isClosable: true,
+      });
 
-    if (submittedUsername !== previousState.username) {
-      signOut();
+      if (submittedUsername !== previousState?.username) {
+        signOut();
+      }
+
+      return user;
+    } catch {
+      toast({
+        title: "Something went wrong. Please try again later.",
+        status: "error",
+        isClosable: true,
+      });
     }
-
-    return user;
   };
 
   const [state, action] = useFormState(handleUpdate, user);
-
-  const { pending } = useFormStatus();
 
   return (
     <Card>
@@ -64,7 +71,7 @@ export default function RegisterForm({ user }: { user: User }) {
               name="job_title"
               id="job_title"
               required
-              defaultValue={state.job_title}
+              defaultValue={state?.job_title}
             />
           </FormControl>
           <FormControl mt={4}>
@@ -73,15 +80,13 @@ export default function RegisterForm({ user }: { user: User }) {
               name="username"
               id="username"
               required
-              defaultValue={state.username}
+              defaultValue={state?.username}
             />
             <FormHelperText>
               Changing your username will require you to re-login.
             </FormHelperText>
           </FormControl>
-          <Button aria-disabled={pending} type="submit" width="100%" mt={4}>
-            Update
-          </Button>
+          <UpdateButton></UpdateButton>
         </form>
       </CardBody>
     </Card>
