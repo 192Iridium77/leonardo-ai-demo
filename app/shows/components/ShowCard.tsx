@@ -33,8 +33,8 @@ export default function ShowCard({ show }: { show: Show }) {
                 style={{ objectFit: "cover" }}
                 fill
                 sizes="((min-width: 50em) and (max-width: 60em)) 50em,
-              ((min-width: 30em) and (max-width: 50em)) 30em,
-              (max-width: 30em) 20em"
+                ((min-width: 30em) and (max-width: 50em)) 30em,
+                (max-width: 30em) 20em"
                 placeholder="blur"
                 blurDataURL={show.coverImage.medium}
               ></Image>

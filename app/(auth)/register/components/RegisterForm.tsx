@@ -31,12 +31,14 @@ export default function RegisterForm() {
       }),
     });
 
-    if (response.ok) {
+    const body = await response.json();
+
+    if (!body.error) {
       router.push("/shows");
       router.refresh();
     }
 
-    return response;
+    return body;
   };
 
   const [state, action] = useFormState(handleRegistration, undefined);
@@ -76,9 +78,7 @@ export default function RegisterForm() {
               Sign Up
             </Button>
             <Box mt={4} aria-live="polite" aria-atomic="true">
-              {!state?.ok ? (
-                <Text>Something went wrong. Please try again.</Text>
-              ) : null}
+              {state?.error ? <Text color="red.600">{state.error}</Text> : null}
             </Box>
           </form>
         </CardBody>
