@@ -2,7 +2,6 @@
 
 import {
   Box,
-  Button,
   Card,
   CardBody,
   Container,
@@ -10,26 +9,21 @@ import {
   FormLabel,
   Heading,
   Input,
-  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { SignInResponse, signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useFormState, useFormStatus } from "react-dom";
-import { useState } from "react";
+import { useFormState } from "react-dom";
 import LoginButton from "./LoginButton";
 
 export default function LoginForm() {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (
     previousState: SignInResponse | undefined,
     formData: FormData
   ) => {
-    setLoading(true);
-
     const response = await signIn("credentials", {
       username: formData.get("username"),
       password: formData.get("password"),
@@ -45,7 +39,6 @@ export default function LoginForm() {
   };
 
   const [state, action] = useFormState(handleLogin, undefined);
-  const { pending } = useFormStatus();
 
   return (
     <Container>
@@ -77,15 +70,6 @@ export default function LoginForm() {
                 Incorrect username or password. Please try again.
               </Box>
             ) : null}
-            {/* <Button
-              isLoading={loading}
-              aria-disabled={loading}
-              type="submit"
-              width="100%"
-              mt={4}
-            >
-              Log in
-            </Button> */}
             <LoginButton></LoginButton>
             <Box textAlign="center" mt={4}>
               <Link href="/register">Create a new account</Link>
